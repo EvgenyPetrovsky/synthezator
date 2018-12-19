@@ -1,0 +1,2 @@
+# synthezator
+Generate synthetic datasets
