@@ -1,3 +1,13 @@
+#' Vector of set names and vector of set values into list of set values
+#'
+#' @description Function transforms dataframe columns (Set name and Set value)
+#'   into list of set values. Sets may be accessed by list element names. The
+#'   output of function can be used as and input for data generation functions
+#'   (like \link{processTable} or \link{processAttr}).
+#'
+#' @export
+#' @param set_names vector of set names
+#' @param set_values vector of set values
 makeSetsFromDF <- function(set_names, set_values) {
 
   filterBySetName <- function(set_name) {
@@ -12,7 +22,12 @@ makeSetsFromDF <- function(set_names, set_values) {
   result
 }
 
-
+#' Break data frasme into list of data-frasmes with data grouped by provided
+#' column
+#'
+#' @export
+#' @param df data frame
+#' @param column column name within data frame that should be used for groupping
 nest_df <- function(df, column) {
   columns <- names(df)
   rest <- columns[columns != column]
@@ -25,7 +40,13 @@ nest_df <- function(df, column) {
   Map(f = mapfun, col_vals)
 }
 
-
+#' Process rules for attribute generation
+#'
+#' @param rules_for_attr dataframe with rules for attributes
+#' @param lovs lists of values
+#' @param count number of records to generate
+#' @param data data frame with earlier prepared results is useful for evaluation
+#'   conditions and evaluation expressions
 processAttr <- function(rules_for_attr, lovs, count, data) {
   r <- rules_for_attr
   if(r$Value.Type == "LOV" && (!r$List.Of.Values %in% names(lovs))) {
@@ -69,8 +90,12 @@ processTable <- function(rules_for_table, lovs, count) {
 }
 
 
+#' Process table with rules
 #'
 #' @export
+#' @param rules_df data frame with rules for tables and attributes generation
+#' @param lovs_df data frame with lists of values (lov name and lov value pairs)
+#' @param count number of records to be generated
 processRulesForTable <- function(rules_df, lovs_df, count) {
   lovs <- makeSetsFromDF(lovs_df$Set, lovs_df$Value)
 
