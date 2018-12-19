@@ -25,6 +25,7 @@ nest_df <- function(df, column) {
   Map(f = mapfun, col_vals)
 }
 
+
 processAttr <- function(rules_for_attr, lovs, count, data) {
   r <- rules_for_attr
   if(r$Value.Type == "LOV" && (!r$List.Of.Values %in% names(lovs))) {
@@ -42,6 +43,7 @@ processAttr <- function(rules_for_attr, lovs, count, data) {
   )
 }
 
+
 processTable <- function(rules_for_table, lovs, count) {
 
   rls <-
@@ -50,22 +52,25 @@ processTable <- function(rules_for_table, lovs, count) {
     dplyr::arrange(Evaluation.Sequence) %>%
     nest_df(df = ., column = "Attribute")
 
-  Reduce(
-    f = function(z, x) {
-      print(paste("process attr", x))
-      vals <- processAttr(rules_for_attr = rls[[x]], lovs = lovs, count = count, data = z)
-      z[[x]] <- vals
-      z
-      },
-    x = names(rls),
-    init = data.frame(n = 1:count, stringsAsFactors = F)
-  )
+  result <-
+    Reduce(
+      f = function(z, x) {
+        print(paste("process attr", x))
+        vals <- processAttr(rules_for_attr = rls[[x]], lovs = lovs, count = count, data = z)
+        z[[x]] <- vals
+        z
+        },
+      x = names(rls),
+      init = data.frame(n = 1:count, stringsAsFactors = F)
+    ) %>%
+    subset(select = -n)
 
+  result
 }
+
 
 #'
 #' @export
-
 processRulesForTable <- function(rules_df, lovs_df, count) {
   lovs <- makeSetsFromDF(lovs_df$Set, lovs_df$Value)
 
