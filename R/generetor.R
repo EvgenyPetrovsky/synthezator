@@ -1,3 +1,7 @@
+#' Convert value into specific data-type
+#'
+#' @param value value to be converted
+#' @param type data type to be returned
 castValue <- function(
   value,
   type
@@ -7,6 +11,15 @@ castValue <- function(
   else if (type == "Varchar") as.character(value)
 }
 
+#' Validate and adjust sign of a number
+#'
+#' @description Function adjust sign of a number based on a given limitation
+#'   (sign_type). Sign type can be of different values: "Any" (no adjustment
+#'   applied), "Not negative" / "Not Positive" (if number is negative / positive
+#'   then it is replaced with 0), "Flip Negative" / "Flip Positive" (if number
+#'   is negative / positive then it is multiplied by -1)
+#' @param number is a number to be validated and adjusted
+#' @param sign_type sign type / limitation that should be applied
 validateSign <- function(
   number,
   sign_type = c("Any", "Not Negative", "Not Positive", "Flip Negative", "Flip Positive")
@@ -32,6 +45,7 @@ validateSign <- function(
 
 }
 
+#' Random number generator
 random <- function(count, rand_dist_name, rand_dist_mean, rand_dist_sd) {
   if (rand_dist_name == "normal") {
     rnorm(n = count, mean = rand_dist_mean, sd = rand_dist_sd)
@@ -42,12 +56,31 @@ random <- function(count, rand_dist_name, rand_dist_mean, rand_dist_sd) {
   }
 }
 
+#' Evaluate result of expression
+#'
+#' @description Function evaluates expression, expression may refer to
+#'   \code{data} provided as a second parameter
+#'
+#' @param expression text expression in R syntax
+#' @param data data frame to be referred, columns can be referred directly by
+#'   column name
 evaluate <- function(expression, data) {
   with(data,{
     eval(parse(text = expression))
   })
 }
 
+#' Apply evaluation condition to result
+#'
+#' @description Function evaluates condition and if condition is met (TRUE),
+#'   then result value returned. If condition is not met (FALSE) empty value
+#'   will be returned. Condition may refer to \code{data} provided as a
+#'   parameter
+#'
+#' @param x result to be adjusted (emptied when condition criteria are not met)
+#' @param condition text expression in R syntax
+#' @param data data frame to be referred, columns can be referred directly by
+#'   column name
 applyCond <- function(x, condition, data){
   if(is.null(condition) || is.na(condition) || condition == "") {
     x
@@ -58,10 +91,30 @@ applyCond <- function(x, condition, data){
   }
 }
 
+#' Generate values
+#'
+#' @export
+#' @param count number of values to generate
+#' @param attr_type data type of attribute (value).
+#' @param eval_cond evaluation condition (R syntax, can refer to other columns
+#'   in \code{data} param)
+#' @param value_type mode to generate value
+#' @param fix_offset_value fixed value to be returned / offset for random
+#'   numbers or dates
+#' @param lov vector of exact values that can be used for value_type = "LOV"
+#' @param rand_dist_name distribution name for random number generation
+#' @param rand_dist_mean distribution mean for random number generation
+#' @param rand_dist_sd distribution standard deviation for random number
+#'   generation
+#' @param sign_type type of sign for randomly generated number (see
+#'   \link{validateSign})
+#' @param expression evaluation expression (R syntax, can refer to other columns
+#'   in \code{data} param)
+#' @param data already generated result in form of data frame, so it can be
+#'   referred by \code{eval_cond} or \code{expression}
 generateAttr <- function(
   count,
   attr_type = c("Number", "Date", "Varchar"),
-  eval_seq = NULL,
   eval_cond = NULL,
   value_type = c("Empty", "Fixed", "LOV", "Random", "Expression"),
   fix_offset_value = NULL,
