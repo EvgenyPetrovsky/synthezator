@@ -5,7 +5,6 @@
 #'   output of function can be used as and input for data generation functions
 #'   (like \link{processTable} or \link{processAttr}).
 #'
-#' @export
 #' @param set_names vector of set names
 #' @param set_values vector of set values
 makeSetsFromDF <- function(set_names, set_values) {
@@ -25,7 +24,6 @@ makeSetsFromDF <- function(set_names, set_values) {
 #' Break data frasme into list of data-frasmes with data grouped by provided
 #' column
 #'
-#' @export
 #' @param df data frame
 #' @param column column name within data frame that should be used for groupping
 nest_df <- function(df, column) {
@@ -93,10 +91,11 @@ processTable <- function(rules_for_table, lovs, count) {
 #' Process table with rules
 #'
 #' @export
+#'
 #' @param rules_df data frame with rules for tables and attributes generation
 #' @param lovs_df data frame with lists of values (lov name and lov value pairs)
 #' @param count number of records to be generated
-processRulesForTable <- function(rules_df, lovs_df, count) {
+processRules <- function(rules_df, lovs_df, count) {
   lovs <- makeSetsFromDF(lovs_df$Set, lovs_df$Value)
 
   nest_df(rules_df, "Table") %>%
