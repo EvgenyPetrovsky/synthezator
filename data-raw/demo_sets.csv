@@ -1,0 +1,23 @@
+Set,Value
+Name,Michel
+Name,Alice
+Name,John
+Name,Eric
+Name,Alex
+Name,Bruce
+Weekday,Monday
+Weekday,Tuesday
+Weekday,Wednesday
+Weekday,Thursday
+Weekday,Friday
+Weekday,Saturday
+Weekday,Sunday
+Card Type,Credit
+Card Type,Debit
+City,Amsterdam
+City,Rotterdam
+City,Utrecht
+City,Groningen
+City,Den Haag
+City,Tilburg
+City,Haarlem
