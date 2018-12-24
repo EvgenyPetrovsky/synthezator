@@ -70,9 +70,9 @@ random <- function(
   rand_dist_name <- match.arg(rand_dist_name)
 
   if (tolower(rand_dist_name) == "normal") {
-    rnorm(n = count, mean = rand_dist_mean, sd = rand_dist_sd)
+    stats::rnorm(n = count, mean = rand_dist_mean, sd = rand_dist_sd)
   } else if (tolower(rand_dist_name) == "poisson") {
-    rpois(n = count, lambda = rand_dist_mean)
+    stats::rpois(n = count, lambda = rand_dist_mean)
   } else {
     stop(paste("Distribution name <", rand_dist_name, "> is not recognized", sep = ""))
   }

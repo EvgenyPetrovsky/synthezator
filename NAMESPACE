@@ -3,8 +3,4 @@
 export(generateAttr)
 export(processRules)
 export(processTable)
-importFrom(dplyr,arrange)
-importFrom(dplyr,case_when)
-importFrom(dplyr,if_else)
 importFrom(magrittr,"%>%")
-importFrom(tibble,as_tibble)
