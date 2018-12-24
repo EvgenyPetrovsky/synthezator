@@ -9,6 +9,9 @@ castValue <- function(
   if (type == "Number") as.double(value)
   else if (type == "Date") as.Date(value, format = "%Y%m%d")
   else if (type == "Varchar") as.character(value)
+  else {
+    stop(paste("Attribute (column) type <", type, "> is not recognized", sep = ""))
+  }
 }
 
 #' Validate and adjust sign of a number
@@ -38,7 +41,7 @@ validateSign <- function(
     } else if (sign_type == "Flip Positive") {
       ifelse(number > 0, number * -1, number)
     } else {
-      NULL
+      stop(paste("Sign type <", sign_type, "> is not recognized", sep = ""))
     }
 
   }
@@ -47,12 +50,12 @@ validateSign <- function(
 
 #' Random number generator
 random <- function(count, rand_dist_name, rand_dist_mean, rand_dist_sd) {
-  if (rand_dist_name == "normal") {
+  if (tolower(rand_dist_name) == "normal") {
     rnorm(n = count, mean = rand_dist_mean, sd = rand_dist_sd)
-  } else if (rand_dist_name == "poisson") {
+  } else if (tolower(rand_dist_name) == "poisson") {
     rpois(n = count, lambda = rand_dist_mean)
   } else {
-    NULL
+    stop(paste("Distribution name <", rand_dist_name, "> is not recognized", sep = ""))
   }
 }
 
@@ -160,7 +163,7 @@ generateAttr <- function(
     } else if (value_type == "Expression") {
       evaluate(expression = expression, data = data)
     } else {
-      NA
+      stop(paste("Value type <", value_type, "> is not recognized", sep = ""))
     }
 
   result %>%
