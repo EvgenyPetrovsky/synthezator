@@ -4,8 +4,10 @@
 #' @param type data type to be returned
 castValue <- function(
   value,
-  type
+  type = c("Number", "Date", "Varchar")
 ) {
+  type <- match.arg(type)
+
   if (type == "Number") as.double(value)
   else if (type == "Date") as.Date(value, format = "%Y%m%d")
   else if (type == "Varchar") as.character(value)
@@ -27,10 +29,12 @@ validateSign <- function(
   number,
   sign_type = c("Any", "Not Negative", "Not Positive", "Flip Negative", "Flip Positive")
 ) {
+  sign_type <- match.arg(sign_type)
+
   if(is.null(sign_type)) {
     number
   } else {
-    if (sign_type == "Any") {
+    if (sign_type == "Any" | is.na(sign_type)) {
       number
     } else if (sign_type == "Not Negative") {
       ifelse(number < 0, number * 0, number)
@@ -49,7 +53,22 @@ validateSign <- function(
 }
 
 #' Random number generator
-random <- function(count, rand_dist_name, rand_dist_mean, rand_dist_sd) {
+#'
+#' @description Generate number or date
+#'
+#' @param count number of values to generate
+#' @param rand_dist_name random distribution name; Normal and Poisson are
+#'   supported
+#' @param rand_dist_mean random distribution mean
+#' @param rand_dist_sd random distribution standard deviation
+random <- function(
+  count,
+  rand_dist_name = c("Normal", "Poisson"),
+  rand_dist_mean,
+  rand_dist_sd
+) {
+  rand_dist_name <- match.arg(rand_dist_name)
+
   if (tolower(rand_dist_name) == "normal") {
     rnorm(n = count, mean = rand_dist_mean, sd = rand_dist_sd)
   } else if (tolower(rand_dist_name) == "poisson") {
@@ -117,25 +136,32 @@ applyCond <- function(x, condition, data){
 #'   referred by \code{eval_cond} or \code{expression}
 generateAttr <- function(
   count,
-  attr_type = c("Number", "Date", "Varchar"),
+  attr_type,
   eval_cond = NULL,
   value_type = c("Empty", "Fixed", "LOV", "Random", "Expression"),
   fix_offset_value = NULL,
   lov = NULL,
-  rand_dist_name = c("", "normal", "poisson"),
-  rand_dist_mean,
-  rand_dist_sd,
-  sign_type,
+  rand_dist_name = NULL,
+  rand_dist_mean = NULL,
+  rand_dist_sd = NULL,
+  sign_type = NULL,
   expression = NULL,
   data = NULL
 ) {
+  value_type <- match.arg(value_type)
 
   result <-
     if (value_type == "Empty") {
       rep(NA, count)
     } else if(value_type == "Fixed") {
+      if (is.null(fix_offset_value)) {
+        stop("Fixed / Offset value must be specified for value type = \"Fixed\"")
+      }
       rep(fix_offset_value, count)
     } else if (value_type == "LOV") {
+      if (is.null(lov)) {
+        stop("'List of Values' parameter must be specified for Value Type = \"LOV\"")
+      }
       sample(x = lov, size = count, replace = TRUE)
     } else if (value_type == "Random") {
       offset_value <- if (is.null(fix_offset_value)) 0 else fix_offset_value
