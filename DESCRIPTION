@@ -17,6 +17,4 @@ Depends: R (>= 2.10)
 Suggests: 
     testthat
 Imports:
-    magrittr,
-    dplyr,
-    tibble
+    magrittr
