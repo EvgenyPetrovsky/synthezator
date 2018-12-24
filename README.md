@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/EvgenyPetrovsky/synthezator.svg?branch=master)](https://travis-ci.org/EvgenyPetrovsky/synthezator)
+
 # synthezator
 
 Generate synthetic datasets
