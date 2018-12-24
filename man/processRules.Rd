@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{processRules}
 \alias{processRules}
-\title{Process table with rules}
+\title{Process all rules}
 \usage{
 processRules(rules_df, lovs_df, count)
 }
@@ -14,5 +14,5 @@ processRules(rules_df, lovs_df, count)
 \item{count}{number of records to be generated}
 }
 \description{
-Process table with rules
+Process all rules
 }

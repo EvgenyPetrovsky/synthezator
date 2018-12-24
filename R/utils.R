@@ -62,12 +62,21 @@ processAttr <- function(rules_for_attr, lovs, count, data) {
   )
 }
 
-
+#' Process rules for specific table
+#'
+#' @export
+#'
+#' @param rules_for_table data frame with rules to generate attributes for one
+#'   table
+#' @param lovs list of vectors with possible values for Value Type = "LOV" list
+#'   names should be the same as they are  mentioned in rules "Lit.Of.Values"
+#'   attribute
+#' @param count number of records to be generated
 processTable <- function(rules_for_table, lovs, count) {
 
   rls <-
     rules_for_table %>%
-    dplyr::mutate(Evaluation.Sequence = dplyr::coalesce(Evaluation.Sequence, 0L)) %>%
+    dplyr::mutate(Evaluation.Sequence = dplyr::coalesce(as.integer(Evaluation.Sequence), 0L)) %>%
     dplyr::arrange(Evaluation.Sequence) %>%
     nest_df(df = ., column = "Attribute")
 
@@ -88,7 +97,7 @@ processTable <- function(rules_for_table, lovs, count) {
 }
 
 
-#' Process table with rules
+#' Process all rules
 #'
 #' @export
 #'
