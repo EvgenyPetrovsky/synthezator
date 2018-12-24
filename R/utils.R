@@ -76,8 +76,13 @@ processTable <- function(rules_for_table, lovs, count) {
 
   rls <-
     rules_for_table %>%
-    dplyr::mutate(Evaluation.Sequence = dplyr::coalesce(as.integer(Evaluation.Sequence), 0L)) %>%
-    dplyr::arrange(Evaluation.Sequence) %>%
+    magrittr::inset(
+      "Evaluation.Sequence",
+      value = ifelse(is.na(.$Evaluation.Sequence), 0, .$Evaluation.Sequence)
+    ) %>%
+    extract(
+      order(.$Evaluation.Sequence),
+    ) %>%
     nest_df(df = ., column = "Attribute")
 
   result <-
