@@ -12,7 +12,7 @@ Enter R envinronment, install additional packages this one
 
 ```R
 install.packages("devtools")
-devtools::install_github(repo = "EvgenyPetrovsky/adaptor")
+devtools::install_github(repo = "EvgenyPetrovsky/synthezator")
 ```
 
 ## Execution
