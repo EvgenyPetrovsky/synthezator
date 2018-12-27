@@ -80,7 +80,7 @@ processTable <- function(rules_for_table, lovs, count) {
       "Evaluation.Sequence",
       value = ifelse(is.na(.$Evaluation.Sequence), 0, .$Evaluation.Sequence)
     ) %>%
-    extract(
+    magrittr::extract(
       order(.$Evaluation.Sequence),
     ) %>%
     nest_df(df = ., column = "Attribute")
