@@ -6,7 +6,7 @@ test_that("Generate vector of required size", {
     count = c, attr_type = "Date", fix_offset_value = "19991231"
   )
   n <- generateAttr(
-    count = c, attr_type = "Number", fix_offset_value = "1.54"
+    count = c, attr_type = "Number", fix_offset_value = "1.54", attr_len = 3, attr_num_dec = 2
   )
   v <- generateAttr(
     count = c, attr_type = "Varchar", fix_offset_value = "Hello world!"

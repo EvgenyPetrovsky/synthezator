@@ -15,6 +15,10 @@ generateAttr(count, attr_type, attr_len = NULL, attr_num_dec = NULL,
 
 \item{attr_type}{data type of attribute (value).}
 
+\item{attr_len}{maximum length of attribute}
+
+\item{attr_num_dec}{maximum number of digits in decimal part of number}
+
 \item{eval_cond}{evaluation condition (R syntax, can refer to other columns
 in \code{data} param)}
 

@@ -13,6 +13,12 @@
   \item{Attribute}{
     Attribute (Column) Name for generated result
   }
+  \item{Attribute.Length}{
+    Maximum length of attribute; mandatory for Number and optional fore Varchar
+  }
+  \item{Attribute.Length}{
+    Maximum number of digits in decimal part of number; mandatry for Number
+  }
   \item{Attribute.Type}{
     Data Type of attribute; can be \code{Number}, \code{Date} or \code{Varchar}.
     Date attributes must be in specific format "YYYYMMDD"

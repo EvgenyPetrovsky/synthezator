@@ -156,6 +156,8 @@ reduceLength <- function(
 #' @export
 #' @param count number of values to generate
 #' @param attr_type data type of attribute (value).
+#' @param attr_len maximum length of attribute
+#' @param attr_num_dec maximum number of digits in decimal part of number
 #' @param eval_cond evaluation condition (R syntax, can refer to other columns
 #'   in \code{data} param)
 #' @param value_type mode to generate value
