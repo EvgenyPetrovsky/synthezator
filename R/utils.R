@@ -52,6 +52,7 @@ processAttr <- function(rules_for_attr, lovs, count, data) {
   }
   generateAttr(
     count = count, attr_type = r$Attribute.Type,
+    attr_len = r$Attribute.Length, attr_num_dec = r$Number.Decimals,
     eval_cond = eval(r$Evaluation.Condition),
     value_type = r$Value.Type, fix_offset_value = r$Fixed.Value...Offset,
     lov = lovs[[r$List.Of.Values]],

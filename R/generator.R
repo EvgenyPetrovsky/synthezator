@@ -113,6 +113,44 @@ applyCond <- function(x, condition, data){
   }
 }
 
+#' Reduce length of value according to specification
+#'
+#' @param value value to be processed
+#' @param type data type of value
+#' @param len desired length of value; must be specified for Number type
+#' @param num_dec number of decimals; must be specified for Number type
+reduceLength <- function(
+  value,
+  type = c("Number", "Date", "Varchar"),
+  len = NULL,
+  num_dec = NULL
+) {
+  type <- match.arg(type)
+
+  if (type == "Number") {
+    # always modify numeric value according to parameters
+    if (is.null(len)) {
+      stop(paste("Attribute Length for Number must be specified", sep = ""))
+    } else if (is.null(num_dec)) {
+      stop(paste("Number Decimals for Number must be specified", sep = ""))
+    }
+    abs(round(x = value, digits = num_dec)) %% (10^(len - num_dec)) * sign(value)
+
+  } else if (type == "Date") {
+    # return value without modifications
+    value
+
+  } else if (type == "Varchar") {
+    # truncate value if length is specified
+    if (is.null(len)) {
+      value
+    } else {
+      substr(value, 1, len)
+    }
+
+  }
+}
+
 #' Generate values
 #'
 #' @export
@@ -137,6 +175,8 @@ applyCond <- function(x, condition, data){
 generateAttr <- function(
   count,
   attr_type,
+  attr_len = NULL,
+  attr_num_dec = NULL,
   eval_cond = NULL,
   value_type = c("Empty", "Fixed", "LOV", "Random", "Expression"),
   fix_offset_value = NULL,
@@ -194,6 +234,7 @@ generateAttr <- function(
 
   result %>%
     applyCond(condition = eval_cond, data = data) %>%
-    castValue(type = attr_type)
+    castValue(type = attr_type) %>%
+    reduceLength(type = attr_type, len = attr_len, num_dec = attr_num_dec)
 
 }

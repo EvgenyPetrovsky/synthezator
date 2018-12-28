@@ -4,11 +4,11 @@
 \alias{generateAttr}
 \title{Generate values}
 \usage{
-generateAttr(count, attr_type, eval_cond = NULL,
-  value_type = c("Empty", "Fixed", "LOV", "Random", "Expression"),
-  fix_offset_value = NULL, lov = NULL, rand_dist_name = NULL,
-  rand_dist_mean = NULL, rand_dist_sd = NULL, sign_type = NULL,
-  expression = NULL, data = NULL)
+generateAttr(count, attr_type, attr_len = NULL, attr_num_dec = NULL,
+  eval_cond = NULL, value_type = c("Empty", "Fixed", "LOV", "Random",
+  "Expression"), fix_offset_value = NULL, lov = NULL,
+  rand_dist_name = NULL, rand_dist_mean = NULL, rand_dist_sd = NULL,
+  sign_type = NULL, expression = NULL, data = NULL)
 }
 \arguments{
 \item{count}{number of values to generate}
