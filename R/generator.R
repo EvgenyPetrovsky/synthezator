@@ -151,6 +151,18 @@ reduceLength <- function(
   }
 }
 
+#' Reduce number of generated elements down to number of requested elements
+#'
+#' @param x vector of elements
+#' @param count requested number of elements
+reduceCount <- function(x, count) {
+  if (length(x) > count) {
+    x[1:count]
+  } else {
+    x
+  }
+}
+
 #' Generate values
 #'
 #' @export
@@ -237,6 +249,7 @@ generateAttr <- function(
   result %>%
     applyCond(condition = eval_cond, data = data) %>%
     castValue(type = attr_type) %>%
-    reduceLength(type = attr_type, len = attr_len, num_dec = attr_num_dec)
+    reduceLength(type = attr_type, len = attr_len, num_dec = attr_num_dec) %>%
+    reduceCount(count)
 
 }
