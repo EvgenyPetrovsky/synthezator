@@ -6,3 +6,4 @@ Account,ID,Number,15,0,,,Expression,,,,,,,n + 1000000
 Account,Holder,Varchar,50,,,,LOV,,Name,,,,,
 Account,Status,Varchar,,,,,Fixed,Active,,,,,,
 Account,OpenDate,Date,,,,,Random,20181231,,Normal,-100,1000,Flip Positive,
+Account,Blocked,Number,1,0,,,Expression,,,,,,,"sample(0:1, count, replace = T, prob = c(10, 1))"

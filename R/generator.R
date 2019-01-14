@@ -86,7 +86,8 @@ random <- function(
 #' @param expression text expression in R syntax
 #' @param data data frame to be referred, columns can be referred directly by
 #'   column name
-evaluate <- function(expression, data) {
+#' @param count required number of values, can be used in expression
+evaluate <- function(expression, data, count) {
   with(data,{
     eval(parse(text = expression))
   })
@@ -241,7 +242,7 @@ generateAttr <- function(
       }
 
     } else if (value_type == "Expression") {
-      evaluate(expression = expression, data = data)
+      evaluate(expression = expression, data = data, count = count)
     } else {
       stop(paste("Value type <", value_type, "> is not recognized", sep = ""))
     }

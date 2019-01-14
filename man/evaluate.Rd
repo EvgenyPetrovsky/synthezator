@@ -4,13 +4,15 @@
 \alias{evaluate}
 \title{Evaluate result of expression}
 \usage{
-evaluate(expression, data)
+evaluate(expression, data, count)
 }
 \arguments{
 \item{expression}{text expression in R syntax}
 
 \item{data}{data frame to be referred, columns can be referred directly by
 column name}
+
+\item{count}{required number of values, can be used in expression}
 }
 \description{
 Function evaluates expression, expression may refer to
