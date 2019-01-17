@@ -12,7 +12,7 @@ castValue <- function(
   else if (type == "Date") as.Date(value, format = "%Y%m%d")
   else if (type == "Varchar") as.character(value)
   else {
-    stop(paste("Attribute (column) type <", type, "> is not recognized", sep = ""))
+   stop(paste("Attribute (column) type <", type, "> is not recognized", sep = ""))
   }
 }
 
@@ -108,8 +108,10 @@ applyCond <- function(x, condition, data){
   if(is.null(condition) || is.na(condition) || condition == "") {
     x
   } else {
+    t <- x
     with(data,{
-      ifelse(eval(parse(text = condition)), x, NA)
+      t[!(eval(parse(text = condition)))] <- NA
+      t
     })
   }
 }
@@ -248,8 +250,8 @@ generateAttr <- function(
     }
 
   result %>%
-    applyCond(condition = eval_cond, data = data) %>%
     castValue(type = attr_type) %>%
+    applyCond(condition = eval_cond, data = data) %>%
     reduceLength(type = attr_type, len = attr_len, num_dec = attr_num_dec) %>%
     reduceCount(count)
 
