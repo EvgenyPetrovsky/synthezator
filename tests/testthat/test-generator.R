@@ -1,6 +1,6 @@
 library(synthezator)
 
-test_that("Generate vector of required size", {
+test_that("Generate vector of Fixed values", {
   c <- 100
   t <- "Fixed"
   d <- generateAttr(
@@ -15,6 +15,23 @@ test_that("Generate vector of required size", {
   expect_equal(length(d), c)
   expect_equal(length(n), c)
   expect_equal(length(v), c)
+})
+
+test_that("Number of generated elements must be as requested", {
+  c <- 100
+  v0 <- generateAttr(count = c, attr_type = "Varchar", value_type = "Empty")
+  v1 <- generateAttr(count = c, attr_type = "Varchar", value_type = "Fixed", fix_offset_value = "A")
+  v2 <- generateAttr(count = c, attr_type = "Varchar", eval_cond = "FALSE", value_type = "Fixed", fix_offset_value = "A")
+  v3 <- generateAttr(count = c, attr_type = "Varchar", value_type = "LOV", lov = LETTERS)
+  v4 <- generateAttr(count = c, attr_type = "Number", attr_len = 10, attr_num_dec = 0, value_type = "Random", fix_offset_value = 0, rand_dist_name = "Normal", rand_dist_mean = 0, rand_dist_sd = 10, sign_type = "Any")
+  v5 <- generateAttr(count = c, attr_type = "Varchar", value_type = "Expression", expression = "LETTERS")
+
+  expect_equal(length(v0), c)
+  expect_equal(length(v1), c)
+  expect_equal(length(v2), c)
+  expect_equal(length(v3), c)
+  expect_equal(length(v4), c)
+  expect_equal(length(v5), c)
 })
 
 test_that("Cast values", {
@@ -78,4 +95,3 @@ test_that("Type preservation after conditional evaluation", {
   expect_equal(typeof(n), "double")
   expect_equal(typeof(v), "character")
 })
-
