@@ -159,11 +159,7 @@ reduceLength <- function(
 #' @param x vector of elements
 #' @param count requested number of elements
 reduceCount <- function(x, count) {
-  if (length(x) > count) {
-    x[1:count]
-  } else {
-    x
-  }
+  rep(x, length.out = count)
 }
 
 #' Generate values
@@ -209,7 +205,7 @@ generateAttr <- function(
 
   result <-
     if (value_type == "Empty") {
-      rep(NA, count)
+      rep(NA, length.out = count)
     } else if(value_type == "Fixed") {
       if (is.null(fix_offset_value)) {
         stop("Fixed / Offset value must be specified for value type = \"Fixed\"")
