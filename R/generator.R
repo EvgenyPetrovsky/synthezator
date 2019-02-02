@@ -11,9 +11,6 @@ castValue <- function(
   if (type == "Number") as.double(value)
   else if (type == "Date") as.Date(value, format = "%Y%m%d")
   else if (type == "Varchar") as.character(value)
-  else {
-    stop(paste("Attribute (column) type <", type, "> is not recognized", sep = ""))
-  }
 }
 
 #' Validate and adjust sign of a number

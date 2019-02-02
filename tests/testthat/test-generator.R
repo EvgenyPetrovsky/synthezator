@@ -50,7 +50,36 @@ test_that("Generation mode: Fixed value", {
   expect_equal(length(v), c)
   expect_equal(unique(v), f)
   expect_equal(length(unique(v)), 1)
+})
 
+test_that("Generation mode: Random value", {
+  t <- "Random"
+  c <- 100
+  v <- generateAttr(value_type = t,
+    count = c, attr_type = "Number", fix_offset_value = 0, 
+    rand_dist_name = "Normal", rand_dist_mean = 0, rand_dist_sd = 1,
+    sign_type = "Any", attr_len = 5, attr_num_dec = 3
+  )
+  expect_equal(length(v), c)
+  v <- generateAttr(value_type = t,
+    count = c, attr_type = "Number", fix_offset_value = 0, 
+    rand_dist_name = "Poisson", rand_dist_mean = 0,
+    sign_type = "Any", attr_len = 5, attr_num_dec = 3
+  )
+  expect_equal(length(v), c)
+})
+
+test_that("Random numbers", {
+  cnt = 100
+  mean = 0
+  sdev = 10
+  expect_error(random(cnt))
+  random(cnt, "Normal", mean, sdev) %>% length %>% expect_equal(cnt)
+  expect_error(random(cnt, "Normal"))
+  expect_error(random(cnt, "Normal", rand_dist_mean = mean))
+  expect_error(random(cnt, "Normal", rand_dist_sd = sdev))
+  random(cnt, "Poisson", cnt, mean) %>% length %>% expect_equal(cnt)
+  expect_error(random(cnt, "Poisson"))
 })
 
 test_that("Conditional evaluation: check generated values", {
@@ -76,7 +105,6 @@ test_that("Conditional evaluation: check based on data in dataframe", {
     data = data.frame(Predicate = p)
   )
   expect_equal(!is.na(v), p)
-
 })
 
 test_that("Type preservation after conditional evaluation", {
@@ -96,10 +124,18 @@ test_that("Type preservation after conditional evaluation", {
   expect_equal(typeof(v), "character")
 })
 
-test_that("If Value type is fixed then argument with fixed value must be provided", {
+test_that("If Value type is fixed then argument with Fixed Value must be provided", {
   expect_error(
     generateAttr(
-      count = c, attr_type = "Varchar", value_type = t, fix_offset_value = NULL
+      count = c, attr_type = "Varchar", value_type = "Fixed", fix_offset_value = NULL
+    )
+  )
+})
+
+test_that("If Value type is from LOV then argument list of possible values must be provided", {
+  expect_error(
+    generateAttr(
+      count = c, attr_type = "Varchar", value_type = "LOV", lov = NULL
     )
   )
 })
