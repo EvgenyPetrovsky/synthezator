@@ -121,3 +121,28 @@ test_that("Test evaluation: access data", {
   val <- evaluate(xpr, data = dta, count = cnt)
   expect_equal(val, 1:cnt + cnt)
 })
+
+test_that("Test validateSign: Any", {
+  nums <- c(-1, 0, +1, NA)
+  validateSign(nums, "Any") %>% expect_equal(nums)
+})
+
+test_that("Test validateSign: Not Negative", {
+  nums <- c(-1, 0, +1, NA)
+  validateSign(nums, "Not Negative") %>% expect_equal(c(0,0,1,NA))
+})
+
+test_that("Test validateSign: Not Positive", {
+  nums <- c(-1, 0, +1, NA)
+  validateSign(nums, "Not Positive") %>% expect_equal(c(-1,0,0,NA))
+})
+
+test_that("Test validateSign: Flip Negative", {
+  nums <- c(-1, 0, +1, NA)
+  validateSign(nums, "Flip Negative") %>% expect_equal(c(1,0,1,NA))
+})
+
+test_that("Test validateSign: Flip Positive", {
+  nums <- c(-1, 0, +1, NA)
+  validateSign(nums, "Flip Positive") %>% expect_equal(c(-1,0,-1,NA))
+})
