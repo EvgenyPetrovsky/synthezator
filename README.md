@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/EvgenyPetrovsky/synthezator.svg?branch=master)](https://travis-ci.org/EvgenyPetrovsky/synthezator)
+[![codecov](https://codecov.io/gh/EvgenyPetrovsky/synthezator/branch/master/graphs/badge.svg)](https://codecov.io/gh/EvgenyPetrovsky/synthezator)
+
 
 # synthezator
 
