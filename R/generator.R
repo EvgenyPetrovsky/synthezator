@@ -12,7 +12,7 @@ castValue <- function(
   else if (type == "Date") as.Date(value, format = "%Y%m%d")
   else if (type == "Varchar") as.character(value)
   else {
-   stop(paste("Attribute (column) type <", type, "> is not recognized", sep = ""))
+    stop(paste("Attribute (column) type <", type, "> is not recognized", sep = ""))
   }
 }
 
@@ -31,23 +31,16 @@ validateSign <- function(
 ) {
   sign_type <- match.arg(sign_type)
 
-  if(is.null(sign_type)) {
+  if (sign_type == "Any" | is.na(sign_type)) {
     number
-  } else {
-    if (sign_type == "Any" | is.na(sign_type)) {
-      number
-    } else if (sign_type == "Not Negative") {
-      ifelse(number < 0, number * 0, number)
-    } else if (sign_type == "Not Positive") {
-      ifelse(number > 0, number * 0, number)
-    } else if (sign_type == "Flip Negative") {
-      ifelse(number < 0, number * -1, number)
-    } else if (sign_type == "Flip Positive") {
-      ifelse(number > 0, number * -1, number)
-    } else {
-      stop(paste("Sign type <", sign_type, "> is not recognized", sep = ""))
-    }
-
+  } else if (sign_type == "Not Negative") {
+    ifelse(number < 0, number * 0, number)
+  } else if (sign_type == "Not Positive") {
+    ifelse(number > 0, number * 0, number)
+  } else if (sign_type == "Flip Negative") {
+    ifelse(number < 0, number * -1, number)
+  } else if (sign_type == "Flip Positive") {
+    ifelse(number > 0, number * -1, number)
   }
 
 }
@@ -69,12 +62,10 @@ random <- function(
 ) {
   rand_dist_name <- match.arg(rand_dist_name)
 
-  if (tolower(rand_dist_name) == "normal") {
+  if (rand_dist_name == "Normal") {
     stats::rnorm(n = count, mean = rand_dist_mean, sd = rand_dist_sd)
-  } else if (tolower(rand_dist_name) == "poisson") {
+  } else if (rand_dist_name == "Poisson") {
     stats::rpois(n = count, lambda = rand_dist_mean)
-  } else {
-    stop(paste("Distribution name <", rand_dist_name, "> is not recognized", sep = ""))
   }
 }
 
@@ -104,7 +95,7 @@ evaluate <- function(expression, data, count) {
 #' @param condition text expression in R syntax
 #' @param data data frame to be referred, columns can be referred directly by
 #'   column name
-applyCond <- function(x, condition, data){
+applyCond <- function(x, condition = NULL, data){
   if(is.null(condition) || is.na(condition) || condition == "") {
     x
   } else {
@@ -146,6 +137,7 @@ reduceLength <- function(
   } else if (type == "Varchar") {
     # truncate value if length is specified
     if (is.null(len)) {
+      #stop(paste("Attribute Length for Varchar must be specified", sep = ""))
       value
     } else {
       substr(value, 1, len)

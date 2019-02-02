@@ -4,7 +4,7 @@
 \alias{applyCond}
 \title{Apply evaluation condition to result}
 \usage{
-applyCond(x, condition, data)
+applyCond(x, condition = NULL, data)
 }
 \arguments{
 \item{x}{result to be adjusted (emptied when condition criteria are not met)}
