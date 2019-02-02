@@ -114,7 +114,7 @@ test_that("Test evaluation: access count", {
   expect_equal(val, 1:cnt)
 })
 
-test_that("Test evaluation: access count", {
+test_that("Test evaluation: access data", {
   cnt <- 10
   dta <- data.frame(Column.A = 1:cnt)
   xpr <- "Column.A + count"
