@@ -96,6 +96,14 @@ test_that("Type preservation after conditional evaluation", {
   expect_equal(typeof(v), "character")
 })
 
+test_that("If Value type is fixed then argument with fixed value must be provided", {
+  expect_error(
+    generateAttr(
+      count = c, attr_type = "Varchar", value_type = t, fix_offset_value = NULL
+    )
+  )
+})
+
 test_that("Test evaluation: trivial case", {
   xpr <- "1:10"
   val <- evaluate(xpr, data = NULL)
@@ -145,4 +153,24 @@ test_that("Test validateSign: Flip Negative", {
 test_that("Test validateSign: Flip Positive", {
   nums <- c(-1, 0, +1, NA)
   validateSign(nums, "Flip Positive") %>% expect_equal(c(-1,0,-1,NA))
+})
+
+test_that("Reduce length of Varchar values", {
+  txt <- "1234567"
+  expect_equal(reduceLength(txt, "Varchar"), txt)
+  expect_equal(reduceLength(txt, "Varchar", 5), "12345")
+  expect_equal(reduceLength(txt, "Varchar", 100), txt)
+})
+
+test_that("Reduce length of Number values", {
+  num <- 11.55555555
+  expect_error(reduceLength(num, "Number"))
+  expect_error(reduceLength(num, "Number", len = 5))
+  expect_error(reduceLength(num, "Number", num_dec = 5))
+  expect_equal(reduceLength(num, "Number", len = 2,  num_dec = 0), 12)
+  expect_equal(reduceLength(num, "Number", len = 5,  num_dec = 3), 11.556)
+  expect_equal(reduceLength(num, "Number", len = 1,  num_dec = 0), 2)
+  expect_equal(reduceLength(num, "Number", len = 5,  num_dec = 4), 1.5556)
+  expect_equal(reduceLength(num, "Number", len = 10, num_dec = 8), num)
+  expect_equal(reduceLength(num, "Number", len = 20, num_dec = 16), num)
 })
