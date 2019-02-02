@@ -95,3 +95,29 @@ test_that("Type preservation after conditional evaluation", {
   expect_equal(typeof(n), "double")
   expect_equal(typeof(v), "character")
 })
+
+test_that("Test evaluation: trivial case", {
+  xpr <- "1:10"
+  val <- evaluate(xpr, data = NULL)
+  expect_equal(val, 1:10)
+})
+
+test_that("Test evaluation: fail if data argument is not passed", {
+  xpr <- "1:10"
+  expect_error(evaluate(xpr))
+})
+
+test_that("Test evaluation: access count", {
+  cnt <- 10
+  xpr <- "1:count"
+  val <- evaluate(xpr, data = NULL, count = cnt)
+  expect_equal(val, 1:cnt)
+})
+
+test_that("Test evaluation: access count", {
+  cnt <- 10
+  dta <- data.frame(Column.A = 1:cnt)
+  xpr <- "Column.A + count"
+  val <- evaluate(xpr, data = dta, count = cnt)
+  expect_equal(val, 1:cnt + cnt)
+})
