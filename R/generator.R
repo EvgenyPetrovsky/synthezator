@@ -174,6 +174,8 @@ reduceCount <- function(x, count) {
 #'   in \code{data} param)
 #' @param data already generated result in form of data frame, so it can be
 #'   referred by \code{eval_cond} or \code{expression}
+#' @param seed integer seed for random number generator; using NULL seed causes
+#'   non-reproducible random generation (see \code{set.seed()} help)
 generateAttr <- function(
   count,
   attr_type,
@@ -188,9 +190,11 @@ generateAttr <- function(
   rand_dist_sd = NULL,
   sign_type = NULL,
   expression = NULL,
-  data = NULL
+  data = NULL,
+  seed = NULL
 ) {
   value_type <- match.arg(value_type)
+  base::set.seed(seed = seed)
 
   result <-
     if (value_type == "Empty") {

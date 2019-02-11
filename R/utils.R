@@ -48,7 +48,7 @@ nest_df <- function(df, column) {
 processAttr <- function(rules_for_attr, lovs, count, data) {
   r <- rules_for_attr
   if(r$Value.Type == "LOV" && (!r$List.Of.Values %in% names(lovs))) {
-    stop(paste("Lsit of values <", r$List.Of.Values, "> is not in the list", sep = ""))
+    stop(paste("List of values <", r$List.Of.Values, "> is not in the list", sep = ""))
   }
   generateAttr(
     count = count, attr_type = r$Attribute.Type,
@@ -59,7 +59,8 @@ processAttr <- function(rules_for_attr, lovs, count, data) {
     rand_dist_name = r$Random.Distribution, rand_dist_mean = r$Mean, rand_dist_sd = r$Standard.Dev,
     sign_type = r$Sign,
     expression = r$Evaluation.Expression,
-    data = data
+    data = data,
+    seed = if (is.na(r$Seed)) NULL else r$Seed
   )
 }
 
@@ -113,8 +114,42 @@ processTable <- function(rules_for_table, lovs, count) {
 processRules <- function(rules_df, lovs_df, count) {
   lovs <- makeSetsFromDF(lovs_df$Set, lovs_df$Value)
 
+  rules_col_diff <- base::setdiff(names(emptyRules()), names(rules_df))
+  if (length(rules_col_diff) > 0) {
+    cols <- paste(rules_col_diff, sep = ", ")
+    stop(paste(
+      "Following mandatory columns are not in Rules dataframe: ",
+      rules_col_diff, sep = ""
+    ))
+  }
+
   nest_df(rules_df, "Table") %>%
     Map(
       f = function(x) processTable(x, lovs, count)
     )
+}
+
+#' Empty rules
+#'
+#' Empty dataframe with minimum required set of columns
+emptyRules <- function() {
+  data.frame(
+    Table = character(),
+    Attribute = character(),
+    Attribute.Type = character(),
+    Attribute.Length = integer(),
+    Number.Decimals = character(),
+    Evaluation.Sequence = integer(),
+    Evaluation.Condition = character(),
+    Value.Type = character(),
+    Fixed.Value...Offset = character(),
+    List.Of.Values = character(),
+    Random.Distribution = character(),
+    Mean = numeric(),
+    Standard.Dev = numeric(),
+    Sign = character(),
+    Evaluation.Expression = character(),
+    Seed = integer(),
+    stringsAsFactors = F
+  )
 }

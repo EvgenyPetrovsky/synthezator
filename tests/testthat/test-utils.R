@@ -57,4 +57,44 @@ test_that("Nest data.frame: check nested frames", {
   expect_equal(ns$C, df %>% subset(col1 == "C", select = c("col2")))
 })
 
+test_that("Incomplete column set in rules table", {
+  cnt <- 100
+  rls <- data.frame(
+    Table = "T1",
+    Attribute = "A1",
+    Attribute.Type = "Varchar",
+    Attribute.Length = 10,
+    Number.Decimals = NA,
+    Evaluation.Sequence = NA,
+    Evaluation.Condition = NA,
+    Value.Type = "Fixed",
+    Fixed.Value...Offset = "Hello",
+    List.Of.Values = NA,
+    Random.Distribution = NA,
+    Mean = NA,
+    Standard.Dev = NA,
+    Sign = NA,
+    Evaluation.Expression = NA,
+    Seed = NA,
+    stringsAsFactors = F
+  )
+  lov <- data.frame(
+    Set = character(),
+    Value = character(),
+    stringsAsFactors = F
+  )
+  result_success <- processRules(rls, lov, cnt)
+  expect_equal(
+    result_success,
+    list("T1" = data.frame("A1" = rep("Hello", cnt), stringsAsFactors = F))
+  )
+
+  rls_damaged <- subset(rls, select = c(
+    "Table", "Attribute", "Attribute.Type", "Attribute.Length", "Value.Type",
+    "Fixed.Value...Offset"
+  ))
+  expect_error(
+    processRules(rls_damaged, lov, cnt),
+    regexp = "Following mandatory columns are not in Rules dataframe: .+")
+})
 
