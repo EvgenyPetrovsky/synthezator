@@ -8,7 +8,7 @@ generateAttr(count, attr_type, attr_len = NULL, attr_num_dec = NULL,
   eval_cond = NULL, value_type = c("Empty", "Fixed", "LOV", "Random",
   "Expression"), fix_offset_value = NULL, lov = NULL,
   rand_dist_name = NULL, rand_dist_mean = NULL, rand_dist_sd = NULL,
-  sign_type = NULL, expression = NULL, data = NULL)
+  sign_type = NULL, expression = NULL, data = NULL, seed = NULL)
 }
 \arguments{
 \item{count}{number of values to generate}
@@ -44,6 +44,9 @@ in \code{data} param)}
 
 \item{data}{already generated result in form of data frame, so it can be
 referred by \code{eval_cond} or \code{expression}}
+
+\item{seed}{integer seed for random number generator; using NULL seed causes
+non-reproducible random generation (see \code{set.seed()} help)}
 }
 \description{
 Generate values

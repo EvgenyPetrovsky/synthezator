@@ -1,9 +1,9 @@
-Table,Attribute,Attribute Type,Attribute.Length,Number.Decimals,Evaluation Sequence,Evaluation Condition,Value Type,Fixed Value / Offset,List Of Values,Random Distribution,Mean,Standard Dev,Sign,Evaluation Expression
-Balance,Account,Number,15,0,,,Expression,,,,,,,n + 1000000
-Balance,Date,Date,,,,,Fixed,20181231,,,,,,
-Balance,Outstanding,Number,22,3,,,Random,1000,,Normal,0,500,Flip Negative,
-Account,ID,Number,15,0,,,Expression,,,,,,,n + 1000000
-Account,Holder,Varchar,50,,,,LOV,,Name,,,,,
-Account,Status,Varchar,,,,,Fixed,Active,,,,,,
-Account,OpenDate,Date,,,,,Random,20181231,,Normal,-100,1000,Flip Positive,
-Account,Blocked,Number,1,0,,,Expression,,,,,,,"sample(0:1, count, replace = T, prob = c(10, 1))"
+Table,Attribute,Attribute Type,Attribute.Length,Number.Decimals,Evaluation Sequence,Evaluation Condition,Value Type,Fixed Value / Offset,List Of Values,Random Distribution,Mean,Standard Dev,Sign,Evaluation Expression,Seed
+Balance,Account,Number,15,0,,,Expression,,,,,,,n + 1000000,
+Balance,Date,Date,,,,,Fixed,20181231,,,,,,,
+Balance,Outstanding,Number,22,3,,,Random,1000,,Normal,0,500,Flip Negative,,0
+Account,ID,Number,15,0,,,Expression,,,,,,,n + 1000000,
+Account,Holder,Varchar,50,,,,LOV,,Name,,,,,,
+Account,Status,Varchar,,,,,Fixed,Active,,,,,,,
+Account,OpenDate,Date,,,,,Random,20181231,,Normal,-100,1000,Flip Positive,,
+Account,Blocked,Number,1,0,,,Expression,,,,,,,"sample(0:1, count, replace = T, prob = c(10, 1))",
